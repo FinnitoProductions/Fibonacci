@@ -3,6 +3,9 @@
 * January 25, 2019
 *
 * Includes functionality for finding the nth Fibonacci number using a loop.
+*
+* fib - determines the nth Fibonacci number non-recursively
+* isWholeNumber - determines whether a not a given variable is a whole number
 */
 
 (batch util/utilities.clp)
@@ -12,8 +15,8 @@
 (bind ?SECOND_FIBONACCI_NUMBER 1l)
 
 /*
-* Determines the nth Fibonacci number, with ?n starting at zero. ?n must be a whole number; returns a warning string
-* if invalid.
+* Determines the nth Fibonacci number, with ?n starting at zero. ?n must be a whole number; 
+* returns a warning string if invalid.
 */
 (deffunction fib (?n)
     (bind ?prevNum ?FIRST_FIBONACCI_NUMBER)
