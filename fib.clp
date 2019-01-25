@@ -6,6 +6,7 @@
 */
 
 (batch util/utilities.clp)
+(import java.lang.Exception)
 
 (bind ?FIRST_FIBONACCI_NUMBER 0l)
 (bind ?SECOND_FIBONACCI_NUMBER 1l)
@@ -17,7 +18,6 @@
 (deffunction fib (?n)
     (bind ?prevNum ?FIRST_FIBONACCI_NUMBER)
     (bind ?currentNum ?SECOND_FIBONACCI_NUMBER)
-    (bind ?returnVal "The fibonacci function must take in a whole number.") ; by default, return the invalid input sequence
     
     (if (isWholeNumber ?n) then
         (for (bind ?i 0) (< ?i ?n) (++ ?i)
@@ -25,10 +25,10 @@
             (bind ?currentNum (+ ?prevNum ?currentNum)) 
             (bind ?prevNum ?newPrevNum)
         )
-        (bind ?returnVal ?prevNum)
+     else (throw (new JessException "fib" "The input must be a positive whole number >=" 0))
     )
 
-    (return ?returnVal)
+    (return ?prevNum)
 )
 
 /*
