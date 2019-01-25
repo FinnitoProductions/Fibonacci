@@ -11,19 +11,31 @@
 (bind ?SECOND_FIBONACCI_NUMBER 1)
 
 /*
-* Determines the nth Fibonaccci number, with n starting at zero.
+* Determines the nth Fibonacci number, with ?n starting at zero. ?n must be a whole number; returns a warning string
+* if invalid.
 */
-(deffunction fib (?n) 
+(deffunction fib (?n)
     (bind ?prevNum ?FIRST_FIBONACCI_NUMBER)
     (bind ?currentNum ?SECOND_FIBONACCI_NUMBER)
+    (bind ?returnVal "The fibonacci function must take in a whole number.") ; by default, return the invalid input sequence
     
-    (for (bind ?i 0) (< ?i ?n) (++ ?i)
-        (bind ?newPrevNum ?currentNum)
-        (bind ?currentNum (+ ?prevNum ?currentNum)) 
-        (bind ?prevNum ?newPrevNum)
+    (if (isWholeNumber ?n) then
+        (for (bind ?i 0) (< ?i ?n) (++ ?i)
+            (bind ?newPrevNum ?currentNum) 
+            (bind ?currentNum (+ ?prevNum ?currentNum)) 
+            (bind ?prevNum ?newPrevNum)
+        )
+        (bind ?returnVal ?prevNum)
     )
 
-    (return ?prevNum)
+    (return ?returnVal)
+)
+
+/*
+* Determines whether a given parameter is a whole number; returns true if it is, and false otherwise.
+*/
+(deffunction isWholeNumber (?n)
+   (return (and (numberp ?n) (>= ?n 0) (= (integer ?n) ?n)))
 )
 
 (printline (fib (askQuestion "What index would you like to view in the Fibonacci sequence")))
