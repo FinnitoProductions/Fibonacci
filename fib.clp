@@ -6,7 +6,7 @@
 */
 
 (batch util/utilities.clp)
-(import java.lang.Exception)
+(import jess.JessException)
 
 (bind ?FIRST_FIBONACCI_NUMBER 0l)
 (bind ?SECOND_FIBONACCI_NUMBER 1l)
