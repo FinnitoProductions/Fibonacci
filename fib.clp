@@ -7,8 +7,8 @@
 
 (batch util/utilities.clp)
 
-(bind ?FIRST_FIBONACCI_NUMBER 0)
-(bind ?SECOND_FIBONACCI_NUMBER 1)
+(bind ?FIRST_FIBONACCI_NUMBER 0l)
+(bind ?SECOND_FIBONACCI_NUMBER 1l)
 
 /*
 * Determines the nth Fibonacci number, with ?n starting at zero. ?n must be a whole number; returns a warning string
