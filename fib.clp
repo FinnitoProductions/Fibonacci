@@ -2,7 +2,7 @@
 * Finn Frankis
 * January 25, 2019
 *
-* Includes functionality for finding a list of the first ?n Fibonacci numbers using a loop.
+* Includes functionality for finding a list of the first ?n Fibonacci numbers using a loop with input validation.
 *
 * fibo - returns a list of the first ?n Fibonacci numbers without input validation
 * isWholeNumber - determines whether a given input is a whole number
