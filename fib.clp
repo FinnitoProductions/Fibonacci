@@ -2,43 +2,75 @@
 * Finn Frankis
 * January 25, 2019
 *
-* Includes functionality for finding the nth Fibonacci number using a loop.
+* Includes functionality for finding a list of the first ?n Fibonacci numbers using a loop.
 *
-* fib - determines the nth Fibonacci number non-recursively
-* isWholeNumber - determines whether a not a given variable is a whole number
+* fibo - returns a list of the first ?n Fibonacci numbers without output validation
+* isWholeNumber - determines whether a given input is a whole number
+* 
 */
 
 (batch util/utilities.clp)
-(import jess.JessException)
 
-(bind ?FIRST_FIBONACCI_NUMBER 0l)
+(bind ?FIRST_FIBONACCI_NUMBER 1l)
 (bind ?SECOND_FIBONACCI_NUMBER 1l)
 
+(bind ?FIBONACCI_REQUEST_MESSAGE "Enter the number of values in the Fibonacci sequence you'd like to see: ")
+(bind ?INVALID_INPUT_ERROR_MESSAGE "The input must be a whole number >= 0.")
+
 /*
-* Determines the nth Fibonacci number, with ?n starting at zero. ?n must be a whole number; 
-* returns a warning string if invalid.
+* Returns a list of the first ?n Fibonacci numbers. For an acceptable output,
+* ?n should be a nonnegative integer value.
 */
-(deffunction fib (?n)
+(deffunction fibo (?n)
     (bind ?prevNum ?FIRST_FIBONACCI_NUMBER)
     (bind ?currentNum ?SECOND_FIBONACCI_NUMBER)
+    (bind ?returnVal (create$))
     
-    (if (isWholeNumber ?n) then
-        (for (bind ?i 0) (< ?i ?n) (++ ?i)
-            (bind ?newPrevNum ?currentNum) 
-            (bind ?currentNum (+ ?prevNum ?currentNum)) 
-            (bind ?prevNum ?newPrevNum)
-        )
-     else (throw (new JessException "fib" "The input must be a positive whole number >=" 0))
+    (for (bind ?i 0) (< ?i ?n) (++ ?i)
+        (bind ?returnVal (insert$ ?returnVal (+ (length$ ?returnVal) 1) ?prevNum))
+
+        (bind ?newPrevNum ?currentNum) 
+        (bind ?currentNum (+ ?prevNum ?currentNum)) 
+        (bind ?prevNum ?newPrevNum)
     )
 
-    (return ?prevNum)
+    (return ?returnVal)
 )
 
 /*
-* Determines whether a given parameter is a whole number; returns true if it is, and false otherwise.
+* Determines whether a given parameter is a whole number; returns TRUE if it is, and FALSE otherwise.
 */
 (deffunction isWholeNumber (?n)
    (return (and (numberp ?n) (>= ?n 0) (= (integer ?n) ?n)))
 )
 
-(printline (fib (askQuestion "What index would you like to view in the Fibonacci sequence")))
+/*
+* Determines a list of the first ?n Fibonacci numbers by first validating the parameter ?n.
+* ?n should be nonnegative; if not, will return FALSE.
+*/
+(deffunction fibonacci (?n)
+    (bind ?isValid (isWholeNumber ?n))
+
+    (if ?isValid then (bind ?returnVal (fibo ?n))
+     else (bind ?returnVal FALSE)
+    )
+
+    (return ?returnVal)
+)
+
+/*
+* Determines a list of the first ?n Fibonacci numbers. ?n should be nonnegative;
+* if not, the user will be prompted to input another value.
+*/
+(deffunction fib ()
+    (bind ?userInput (ask ?FIBONACCI_REQUEST_MESSAGE))
+    (bind ?fibVal (fibonacci ?userInput)) ; will be FALSE if ?n is invalid, list of the first ?n Fibonacci numbers otherwise
+
+    (if (eq ?fibVal FALSE) then (printline ?INVALID_INPUT_ERROR_MESSAGE) (bind ?returnVal (fib))
+     else (bind ?returnVal ?fibVal)
+    )
+
+    (return ?returnVal)
+)
+
+(printline (fib))
