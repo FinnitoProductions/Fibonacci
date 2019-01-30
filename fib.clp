@@ -28,7 +28,7 @@
     (bind ?currentNum ?SECOND_FIBONACCI_NUMBER)
     (bind ?returnVal (create$))
     
-    (for (bind ?i 0) (< ?i ?n) (++ ?i)
+    (while (< (length$ ?returnVal) ?n)
         (bind ?returnVal (insert$ ?returnVal (+ (length$ ?returnVal) 1) ?prevNum))
 
         (bind ?newPrevNum ?currentNum) 
