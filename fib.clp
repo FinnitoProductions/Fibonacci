@@ -4,9 +4,11 @@
 *
 * Includes functionality for finding a list of the first ?n Fibonacci numbers using a loop.
 *
-* fibo - returns a list of the first ?n Fibonacci numbers without output validation
+* fibo - returns a list of the first ?n Fibonacci numbers without input validation
 * isWholeNumber - determines whether a given input is a whole number
-* 
+* fibonacci - returns a list of the first ?n Fibonacci numbers if ?n is a whole number; FALSE if ?n is invalid
+* fib - prompts the user for the value which represents the size of the desired list of the first ?n Fibonacci numbers;
+* returns the list if the input is a whole number; if the input is not a whole number, requests another value
 */
 
 (batch util/utilities.clp)
