@@ -62,7 +62,7 @@
 ) ; fibonacci (?n)
 
 /*
-* Helper method the user for the number ?n which will be used to generate the list of the first ?n Fibonacci numbers.
+* Helper method which asks the user for the number ?n which will be used to generate the list of the first ?n Fibonacci numbers.
 * Returns FALSE if ?n is invalid and the list of the first ?n Fibonacci numbers otherwise.
 */
 (deffunction requestFib ()
