@@ -2,13 +2,14 @@
 * Finn Frankis
 * January 25, 2019
 *
-* Includes functionality for finding a list of the first ?n Fibonacci numbers using a loop with input validation.
+* Finds a list of the first ?n Fibonacci numbers using a loop with input validation.
 *
 * fibo - returns a list of the first ?n Fibonacci numbers without input validation
 * isWholeNumber - determines whether a given input is a whole number
 * fibonacci - returns a list of the first ?n Fibonacci numbers if ?n is a whole number; FALSE if ?n is invalid
 * fib - prompts the user for the value which represents the size of the desired list of the first ?n Fibonacci numbers;
 * returns the list if the input is a whole number; if the input is not a whole number, requests another value
+* requestFib - requests the user for the desired number of Fibonacci numbers
 */
 
 (batch util/utilities.clp)
@@ -28,7 +29,7 @@
     (bind ?currentNum ?SECOND_FIBONACCI_NUMBER)
     (bind ?returnVal (create$))
     
-    (while (< (length$ ?returnVal) ?n)
+    (for (bind ?i 0) (< ?i ?n) (++ ?i)
         (bind ?returnVal (insert$ ?returnVal (+ (length$ ?returnVal) 1) ?prevNum))
 
         (bind ?newPrevNum ?currentNum) 
@@ -37,14 +38,14 @@
     )
 
     (return ?returnVal)
-)
+) ; fibo (?n)
 
 /*
 * Determines whether a given parameter is a whole number; returns TRUE if it is, and FALSE otherwise.
 */
 (deffunction isWholeNumber (?n)
    (return (and (numberp ?n) (>= ?n 0) (= (integer ?n) ?n)))
-)
+) ; isWholeNumber (?n) 
 
 /*
 * Determines a list of the first ?n Fibonacci numbers by first validating the parameter ?n.
@@ -58,21 +59,30 @@
     )
 
     (return ?returnVal)
-)
+) ; fibonacci (?n)
+
+/*
+* Helper method the user for the number ?n which will be used to generate the list of the first ?n Fibonacci numbers.
+* Returns FALSE if ?n is invalid and the list of the first ?n Fibonacci numbers otherwise.
+*/
+(deffunction requestFib ()
+    (bind ?userInput (ask ?FIBONACCI_REQUEST_MESSAGE))
+    (return (fibonacci ?userInput))
+) ; requestFib ()
 
 /*
 * Determines a list of the first ?n Fibonacci numbers. ?n should be nonnegative;
 * if not, the user will be prompted to input another value.
 */
 (deffunction fib ()
-    (bind ?userInput (ask ?FIBONACCI_REQUEST_MESSAGE))
-    (bind ?fibVal (fibonacci ?userInput)) ; will be FALSE if ?n is invalid, list of the first ?n Fibonacci numbers otherwise
+    (bind ?fibVal (requestFib))
 
-    (if (eq ?fibVal FALSE) then (printline ?INVALID_INPUT_ERROR_MESSAGE) (bind ?returnVal (fib))
-     else (bind ?returnVal ?fibVal)
+    (while (eq ?fibVal FALSE) 
+        (printline ?INVALID_INPUT_ERROR_MESSAGE) 
+        (bind ?fibVal (requestFib))
     )
 
-    (return ?returnVal)
-)
+    (return ?fibVal)
+) ; fib ()
 
 (printline (fib))
