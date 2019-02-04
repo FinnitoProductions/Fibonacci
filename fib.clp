@@ -29,8 +29,8 @@
     (bind ?currentNum ?SECOND_FIBONACCI_NUMBER)
     (bind ?returnVal (create$))
     
-    (for (bind ?i 0) (< ?i ?n) (++ ?i)
-        (bind ?returnVal (insert$ ?returnVal (+ (length$ ?returnVal) 1) ?prevNum))
+    (for (bind ?i 1) (<= ?i ?n) (++ ?i)
+        (bind ?returnVal (insert$ ?returnVal ?i ?prevNum))
 
         (bind ?newPrevNum ?currentNum) 
         (bind ?currentNum (+ ?prevNum ?currentNum)) 
@@ -63,7 +63,7 @@
 
 /*
 * Helper method which asks the user for the number ?n which will be used to generate the list of the first ?n Fibonacci numbers.
-* Returns FALSE if ?n is invalid and the list of the first ?n Fibonacci numbers otherwise.
+* Returns FALSE if the provided number is invalid and the list of the first ?n Fibonacci numbers otherwise.
 */
 (deffunction requestFib ()
     (bind ?userInput (ask ?FIBONACCI_REQUEST_MESSAGE))
