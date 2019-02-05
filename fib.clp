@@ -30,10 +30,10 @@
     (bind ?returnVal (create$))
     
     (for (bind ?i 1) (<= ?i ?n) (++ ?i)
-        (bind ?returnVal (insert$ ?returnVal ?i ?prevNum))
+        (bind ?returnVal (insert$ ?returnVal ?i ?prevNum)) ; appends the ?i-th Fibonacci number to the list
 
-        (bind ?newPrevNum ?currentNum) 
-        (bind ?currentNum (+ ?prevNum ?currentNum)) 
+        (bind ?newPrevNum ?currentNum)                     ; stores ?currentNum's value in another variable for later use
+        (bind ?currentNum (+ ?prevNum ?currentNum))        ; stores the next Fibonacci number
         (bind ?prevNum ?newPrevNum)
     )
 
